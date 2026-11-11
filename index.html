@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Economia Doméstica · teste da porta</title>
+<meta name="description" content="Página de teste do login e da fila do app Economia Doméstica. Sem dado, sem número.">
+<meta name="theme-color" content="#0B8A83">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Economia Doméstica">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Economia Doméstica · teste da porta">
+<meta property="og:description" content="Página de teste do login e da fila. Sem dado, sem número.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Economia Doméstica">
+<meta name="twitter:card" content="summary">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icone-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  /* Página de TESTE, não é a tela do app: só o teal da marca (--marca-txt do DESIGN.md), alvos de toque de 44 px e nada mais. */
+  :root { --marca: #076A65; --borda: #C9D3D2; --fundo: #FFFFFF; --txt: #1B2A29; --suave: #EEF4F3; --erro: #A02020; --ok: #0F7A47; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 16px; padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); font: 16px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--txt); background: var(--fundo); max-width: 720px; margin-inline: auto; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  h2 { font-size: 16px; margin: 20px 0 8px; }
+  p, li { margin: 4px 0; }
+  .nota { color: #4B5B5A; font-size: 14px; }
+  .cartao { border: 1px solid var(--borda); border-radius: 12px; padding: 12px; margin: 8px 0; background: var(--suave); }
+  button { min-height: 44px; padding: 8px 14px; border: 0; border-radius: 10px; background: var(--marca); color: #fff; font: inherit; font-weight: 600; margin: 4px 4px 4px 0; }
+  button.sec { background: #fff; color: var(--marca); border: 1px solid var(--marca); }
+  button[disabled] { opacity: .5; }
+  input { min-height: 44px; padding: 6px 10px; border: 1px solid var(--borda); border-radius: 10px; font: inherit; width: 100%; margin: 2px 0 8px; }
+  label { display: block; font-size: 14px; }
+  pre { white-space: pre-wrap; word-break: break-word; background: #fff; border: 1px solid var(--borda); border-radius: 10px; padding: 8px; font-size: 13px; margin: 6px 0; }
+  .ok { color: var(--ok); font-weight: 600; } .ruim { color: var(--erro); font-weight: 600; }
+  ol#registro { padding-left: 20px; font-size: 14px; }
+  #aviso-config { display: none; background: #FFF3CD; border: 1px solid #E0B84A; padding: 10px; border-radius: 10px; }
+</style>
+</head>
+<body>
+<h1>Economia Doméstica · teste da porta</h1>
+<p class="nota">Página só para provar o login, a conversa com o servidor e a fila. Não mostra número nenhum da casa.</p>
+<p id="aviso-config"><strong>config.js ainda tem os marcadores PREENCHER_*.</strong> Preencha o id do cliente e o endereço /exec (LEIA.md, passo 1).</p>
+
+<h2>1 · Onde estou</h2>
+<div class="cartao">
+  <p>Superfície: <strong id="superficie">…</strong></p>
+  <p>Rede: <strong id="rede">…</strong></p>
+  <p>Conta conferida pelo servidor: <strong id="conferido">ninguém entrou</strong></p>
+  <p class="nota" id="estado-login"></p>
+</div>
+
+<h2>2 · Entrar</h2>
+<div class="cartao">
+  <div id="botao-google"></div>
+  <p><button id="b-entrar" class="sec" hidden>Entrar de novo</button></p>
+  <p class="nota">O login pede só nome, e-mail e foto (openid email profile). O token dura 1 hora e fica só na memória desta página.</p>
+</div>
+
+<h2>3 · Provas da porta</h2>
+<div class="cartao">
+  <p><button id="b-quem">Quem sou eu? (o servidor responde o e-mail que conferiu)</button></p>
+  <p><button id="b-sem" class="sec">Pedido sem token</button>
+     <button id="b-lixo" class="sec">Token malformado</button>
+     <button id="b-velho" class="sec">Token vencido (depois de 1 h)</button></p>
+  <label for="i-outro">Id de um 2º cliente OAuth (só para provar «outro cliente»)</label>
+  <input id="i-outro" placeholder="cole aqui o id do cliente de teste" autocomplete="off">
+  <p><button id="b-outro" class="sec">Pedir token do outro cliente e enviar</button></p>
+</div>
+
+<h2>4 · Fila de gestos</h2>
+<div class="cartao">
+  <p class="nota">Grava a «nota» de um lançamento da planilha DE TESTE. Use o modo avião do aparelho para ver o gesto esperar.</p>
+  <label for="c-id">lancamento_id</label><input id="c-id" autocomplete="off">
+  <label for="c-rev">rev_esperada</label><input id="c-rev" value="1" inputmode="numeric">
+  <label for="c-nota">nota</label><input id="c-nota" value="teste da fila">
+  <p><button id="b-fila">Enfileirar a gravação</button>
+     <button id="b-reenviar" class="sec" hidden>Reenviar com a rev atual</button>
+     <button id="b-descartar" class="sec" hidden>Descartar o gesto recusado</button></p>
+  <p><strong id="fila-estado">tudo gravado</strong></p>
+  <pre id="fila-itens"></pre>
+</div>
+
+<h2>5 · Resultado</h2>
+<ol id="registro"></ol>
+<pre id="saida"></pre>
+
+<h2>6 · Sair</h2>
+<p><button id="b-sair" class="sec">Sair e apagar deste aparelho</button></p>
+
+<script src="config.js"></script>
+<script src="fila.js"></script>
+<script src="api.js"></script>
+<script>
+(function () {
+  'use strict';
+  var C = window.ECON_CONFIG || {};
+  var configurado = !!C.CLIENT_ID && C.CLIENT_ID.indexOf('PREENCHER') !== 0 && !!C.API_URL && C.API_URL.indexOf('PREENCHER') !== 0;
+  function $(id) { return document.getElementById(id); }
+  var tokenAtual = null;      // o ID token vive só aqui, em memória
+  var primeiroToken = null;   // o da entrada: serve de «token vencido» depois de 1 h
+  var espera = null;          // quem espera um token novo
+  var ultimaRecusa = null;
+
+  var api = Api.criarCliente({
+    url: C.API_URL,
+    fetch: window.fetch.bind(window),
+    token: function () { return tokenAtual; },
+    renovar: renovar
+  });
+  var fila = Fila.criar({
+    enviar: function (item) { return api.chamar(item.tipo, item.envio); },
+    aoMudar: mostrarFila,
+    aoRecusar: function (item) {
+      ultimaRecusa = item;
+      registrar('fila: ' + item.tipo + ' recusado', item.resposta);
+      var atual = item.resposta && item.resposta.atual;
+      $('b-reenviar').hidden = !(item.resposta && item.resposta.motivo === 'rev_desatualizada' && atual && typeof atual.rev === 'number');
+      $('b-descartar').hidden = false;   // o recusado fica com o que foi digitado até a pessoa descartar
+    },
+    aoGravar: function (resposta) { registrar('fila: gravado', { ok: resposta.ok, repetido: !!resposta.repetido, rev: resposta.rev, autor: resposta.autor }); }
+  });
+
+  function hora() { return new Date().toLocaleTimeString('pt-BR'); }
+  function registrar(titulo, resposta) {
+    var li = document.createElement('li');
+    var ok = resposta && resposta.ok === true;
+    var sp = document.createElement('span'); sp.className = ok ? 'ok' : 'ruim'; sp.textContent = ok ? 'ok' : String((resposta && resposta.motivo) || 'sem resposta'); li.appendChild(sp);
+    li.insertBefore(document.createTextNode(hora() + ' · ' + titulo + ' → '), li.firstChild);
+    $('registro').insertBefore(li, $('registro').firstChild);
+    $('saida').textContent = JSON.stringify(resposta, null, 2);
+  }
+  function mostrarFila(resumo, itens) {
+    $('fila-estado').textContent = resumo.texto;
+    $('fila-itens').textContent = itens.map(function (i) {
+      return i.estado + ' · ' + i.tipo + ' · tentativas ' + i.tentativas + (i.motivo ? ' · ' + i.motivo : '');
+    }).join('\n');
+  }
+  function mostrarSuperficie() {
+    var standalone = (window.navigator.standalone === true) || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+    $('superficie').textContent = (standalone ? 'ícone da tela de início (standalone)' : 'aba do navegador') + ' · ' + (navigator.userAgent.match(/(Chrome|CriOS|Safari|Firefox)\/?/) || ['navegador'])[0];
+    $('rede').textContent = navigator.onLine ? 'conectado' : 'sem rede';
+  }
+  function mostrarEntrar(sim) { $('b-entrar').hidden = !sim; }
+
+  function configGis() {
+    return { client_id: C.CLIENT_ID, callback: aoCredencial, auto_select: true, cancel_on_tap_outside: false, itp_support: true };
+  }
+  function aoCredencial(resp) {
+    if (!resp || !resp.credential) return;
+    tokenAtual = resp.credential;
+    if (!primeiroToken) primeiroToken = tokenAtual;
+    mostrarEntrar(false);
+    $('estado-login').textContent = 'token novo recebido às ' + hora() + ' (vale 1 h)';
+    if (espera) { var e = espera; espera = null; clearTimeout(e.t); e.resolver(tokenAtual); }
+    else quemSou();
+  }
+  // Token novo sem trocar de página; se o Google pedir um toque, vira «Entrar de novo» e o gesto espera pendente.
+  function renovar() {
+    return new Promise(function (resolver, rejeitar) {
+      if (!window.google || !google.accounts || !google.accounts.id) { rejeitar(new Error('gis_indisponivel')); return; }
+      function desistir() {
+        if (!espera) return;
+        clearTimeout(espera.t); espera = null; mostrarEntrar(true);
+        $('estado-login').textContent = 'o Google pediu um toque: aperte «Entrar de novo» (os gestos esperam)';
+        rejeitar(new Error('precisa_de_toque'));
+      }
+      espera = { resolver: resolver, t: setTimeout(desistir, 20000) };
+      try {
+        google.accounts.id.prompt(function (n) {
+          try { if ((n.isNotDisplayed && n.isNotDisplayed()) || (n.isSkippedMoment && n.isSkippedMoment())) desistir(); } catch (e) { /* sem notificação: vale o prazo */ }
+        });
+      } catch (e) { desistir(); }
+    });
+  }
+
+  function quemSou() {
+    return api.chamar('quem_sou', {}).then(function (r) {
+      $('conferido').textContent = r.ok ? r.email + ' (origem: ' + r.origem + ')' : 'recusado: ' + r.motivo;
+      registrar('quem_sou', r);
+      return r;
+    }, function (e) { registrar('quem_sou', { ok: false, motivo: 'erro de rede: ' + e.message }); });
+  }
+  function prova(titulo, acao, opcoes) {
+    return api.chamar(acao, {}, opcoes).then(function (r) { registrar(titulo, r); }, function (e) { registrar(titulo, { ok: false, motivo: 'erro de rede: ' + e.message }); });
+  }
+
+  $('b-quem').onclick = quemSou;
+  $('b-sem').onclick = function () { prova('sem token', 'quem_sou', { token: null, semRenovar: true }); };
+  $('b-lixo').onclick = function () { prova('token malformado', 'quem_sou', { token: 'a.b.c', semRenovar: true }); };
+  $('b-velho').onclick = function () {
+    var exp = primeiroToken ? Api.expDoToken(primeiroToken) : null;
+    if (!exp) { registrar('token vencido', { ok: false, motivo: 'entre primeiro e volte depois de 1 h' }); return; }
+    var falta = Math.ceil((exp * 1000 - Date.now()) / 60000);
+    if (falta > 0) { registrar('token vencido', { ok: false, motivo: 'o 1º token ainda vale por ' + falta + ' min: volte depois' }); return; }
+    prova('token vencido (o da entrada)', 'quem_sou', { token: primeiroToken, semRenovar: true });
+  };
+  $('b-outro').onclick = function () {
+    var outro = $('i-outro').value.trim();
+    if (!outro) { registrar('outro cliente', { ok: false, motivo: 'cole o id do 2º cliente' }); return; }
+    google.accounts.id.initialize({
+      client_id: outro, auto_select: false,
+      callback: function (resp) {
+        google.accounts.id.initialize(configGis());   // volta ao cliente de verdade antes de qualquer outra coisa
+        prova('token de outro cliente', 'quem_sou', { token: resp.credential, semRenovar: true });
+      }
+    });
+    google.accounts.id.prompt();
+  };
+  $('b-entrar').onclick = function () { google.accounts.id.prompt(); };
+  $('b-fila').onclick = function () {
+    fila.enfileirar('gravarClassificacao', { lancamento_id: $('c-id').value.trim(), campos: { nota: $('c-nota').value }, rev_esperada: Number($('c-rev').value) });
+  };
+  $('b-reenviar').onclick = function () {
+    if (!ultimaRecusa) return;
+    fila.reenviar(ultimaRecusa.client_token, { rev_esperada: ultimaRecusa.resposta.atual.rev });
+    $('b-reenviar').hidden = true; $('b-descartar').hidden = true;
+  };
+  $('b-descartar').onclick = function () {
+    if (!ultimaRecusa) return;
+    fila.descartar(ultimaRecusa.client_token);
+    ultimaRecusa = null;
+    $('b-reenviar').hidden = true; $('b-descartar').hidden = true;
+  };
+  $('b-sair').onclick = function () {
+    if (fila.aberto() && !window.confirm('Há gestos ainda não enviados. Sair apaga esses gestos deste aparelho. Continuar?')) return;
+    fila.apagarTudo();
+    tokenAtual = null; primeiroToken = null;
+    try { google.accounts.id.disableAutoSelect(); } catch (e) { /* sem GIS carregado */ }
+    $('conferido').textContent = 'ninguém entrou';
+    $('estado-login').textContent = 'saiu: fila e token apagados deste aparelho';
+    $('saida').textContent = ''; $('registro').innerHTML = '';
+  };
+
+  window.addEventListener('online', mostrarSuperficie);
+  window.addEventListener('offline', mostrarSuperficie);
+  mostrarSuperficie();
+  mostrarFila(fila.resumo(), fila.itens());
+  if (!configurado) $('aviso-config').style.display = 'block';
+  fila.iniciar(window, document);
+
+  window.aoCarregarGis = function () {
+    if (!configurado) return;
+    google.accounts.id.initialize(configGis());
+    google.accounts.id.renderButton($('botao-google'), { theme: 'outline', size: 'large', text: 'signin_with', locale: 'pt-BR' });
+    google.accounts.id.prompt();
+  };
+  if (window.google && window.google.accounts) window.aoCarregarGis();
+})();
+</script>
+<script src="https://accounts.google.com/gsi/client" async defer onload="aoCarregarGis()"></script>
+</body>
+</html>
