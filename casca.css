@@ -1,0 +1,82 @@
+/* casca.css · só o que a casca do app acrescenta ao desenho do mockup (app.css é o CSS do mockup, sem mudança).
+   Usa os tokens do DESIGN.md já definidos em app.css; nenhuma cor nova. */
+
+/* ---------- entrada (login) ---------- */
+.econ-entrada{display:none;position:fixed;inset:0;z-index:300;background:var(--pagina);align-items:center;justify-content:center;padding:24px;padding-top:max(24px,env(safe-area-inset-top))}
+body.econ-entrada-aberta .econ-entrada{display:flex}
+body.econ-entrada-aberta .app,body.econ-entrada-aberta .tabbar{visibility:hidden}
+.econ-entrada-cartao{display:grid;gap:20px;justify-items:start;width:100%;max-width:420px;background:var(--sup);border:1px solid var(--borda);border-radius:20px;padding:32px}
+.econ-entrada-cartao .marca{display:flex;align-items:center;gap:12px;font-weight:600;font-size:1.0625rem}
+.econ-entrada-cartao .marca i{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--marca-cheio);color:#fff;font-style:normal;font-weight:700}
+.econ-entrada-cartao h1{font-size:1.5rem;line-height:1.25;margin:0;font-weight:600}
+.econ-entrada-cartao #econ-botao-google{min-height:44px}
+
+/* ---------- sem tela (erro de leitura, acesso negado, config): a moldura fica, o menu não ---------- */
+body.econ-sem-tela .side,body.econ-sem-tela .tabbar{visibility:hidden}
+.econ-estado{max-width:560px;display:grid;gap:12px;padding:28px;border-radius:20px;background:var(--sup);border:1px solid var(--borda)}
+.econ-estado h2{font-size:1.25rem;line-height:1.3;margin:0;font-weight:600}
+.econ-estado p{margin:0;color:var(--txt-2);line-height:1.5}
+
+/* ---------- faixas do topo: fila, recusa, número velho ---------- */
+.econ-faixas{display:grid}
+.econ-faixa{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 40px;font-size:.9375rem;font-weight:500;line-height:1.4;border-bottom:1px solid var(--borda);background:var(--sup-2);color:var(--txt-1)}
+.econ-faixa.indo{background:var(--plano-sup)}
+.econ-faixa.aviso{background:var(--atencao-sup)}
+.econ-faixa.recusa{background:var(--alerta-sup)}
+.econ-faixa .btn{min-height:44px}
+
+/* ---------- conta ---------- */
+.topo .btn.econ-conta{min-width:44px;padding:0;border-radius:50%;font-weight:700;color:var(--marca-txt);background:var(--marca-sup);border-color:transparent}
+.econ-conta-pop{position:sticky;top:var(--topo);z-index:var(--z-bar);display:grid;gap:8px;justify-items:start;margin:8px 16px 0 auto;max-width:340px;padding:16px;border-radius:16px;background:var(--sup);border:1px solid var(--borda);box-shadow:var(--sombra)}
+.econ-conta-pop[hidden]{display:none}
+.econ-conta-pop b{font-weight:600;overflow-wrap:anywhere}
+
+/* ---------- estado da gravação, sob o campo de orçado ---------- */
+.econ-st{display:block;margin-top:4px;font-size:.8125rem;font-weight:500;line-height:1.35;color:var(--txt-2);text-align:right;max-width:260px;margin-left:auto}
+.econ-st.ok{color:var(--sobra-t)}
+.econ-st.indo{color:var(--plano)}
+.econ-st.recusa{color:var(--neg-t);font-weight:600;text-align:left;white-space:normal}
+.econ-st.recusa .btn{min-height:32px;padding:0 8px;font-size:.8125rem}
+div.econ-recusa-linha,.econ-recusa-linha td{padding:10px 14px 12px;background:var(--alerta-sup);border-radius:12px}
+div.econ-recusa-linha{grid-column:1/-1;margin:2px 0 8px}
+.econ-recusa-linha .econ-st.recusa{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;max-width:none;margin:0;font-size:.9375rem;line-height:1.45}
+.econ-recusa-linha .econ-st.recusa .btn{min-height:44px;padding:0 14px;font-size:.9375rem;border-color:var(--borda-forte);background:var(--sup);color:var(--txt-1)}
+.econ-st.nota{font-style:normal}
+.inp:disabled{opacity:1;color:var(--txt-2);background:transparent;border-style:dashed;cursor:not-allowed}
+.econ-sem-link{color:inherit;font-weight:600}
+.econ-so-leitura{margin:0 0 16px;padding:10px 14px;border-radius:12px;background:var(--sup-2);color:var(--txt-1);font-size:.9375rem;line-height:1.45}
+
+/* ---------- diálogo (recusadas, trazer do mockup) ---------- */
+.econ-dialogo{width:min(92vw,640px);max-height:86vh;overflow:auto;border:1px solid var(--borda);border-radius:20px;padding:24px;background:var(--sup);color:var(--txt-1);font-family:var(--f)}
+.econ-dialogo::backdrop{background:rgba(17,24,39,.45)}
+.econ-dialogo h2{font-size:1.25rem;line-height:1.3;margin:0 0 8px;font-weight:600}
+.econ-dialogo p{margin:12px 0}
+.econ-dialogo input[type=file]{font:inherit;max-width:100%}
+.econ-lista{list-style:none;margin:16px 0;padding:0;display:grid;gap:12px}
+.econ-lista li{display:grid;gap:4px;padding:12px 14px;border-radius:12px;background:var(--sup-2)}
+.econ-lista li span{color:var(--txt-2);font-size:.9375rem;line-height:1.45}
+.econ-lista li .btn{justify-self:start;min-height:36px}
+.econ-conta-mig{font-variant-numeric:tabular-nums}
+
+@media (max-width: 767px){
+  .econ-faixa .btn,.econ-recusa-linha .econ-st.recusa .btn,.econ-lista li .btn,.econ-dialogo .btn{min-height:48px}
+  .econ-faixa{padding:10px 16px}
+  .econ-st{max-width:100%}
+  .econ-entrada-cartao{padding:24px}
+}
+
+/* ---------- alvo de toque ≥ 48 px onde o dedo é o ponteiro (SPEC «Celular» e RNF2; DESIGN «Toque»): botões do topo e campos numéricos.
+   O mockup tinha 44 px nos dois. Só a medida muda; cor, forma e posição são as do desenho aprovado. ---------- */
+@media (max-width: 767px), (pointer: coarse){
+  .topo .btn,.topo-acoes .btn,.topo .btn.econ-conta{min-height:48px;min-width:48px}
+  #main .inp{min-height:48px}
+  /* «Concluir» mora dentro da pílula da sobra (32 px no desenho): o botão fica como está e a área de toque cresce para 48 px */
+  .topo .chip.sobra-topo .btn{position:relative}
+  .topo .chip.sobra-topo .btn::after{content:"";position:absolute;z-index:1;left:0;right:0;top:-13px;bottom:-6px}   /* 29 + 13 + 6 = 48; para baixo só cabem 6 px dentro da pílula */
+}
+@media (max-width: 767px){
+  .topo{padding-top:6px;padding-bottom:6px}   /* 48 + 12 = os mesmos 60 px de topo (--topo): o cabeçalho flutuante das tabelas não sai do lugar */
+}
+
+/* o chip do topo só aparece com texto (na tela de erro ele fica vazio) */
+.topo .chip:empty{display:none}

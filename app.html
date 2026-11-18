@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>Economia Doméstica</title>
+<meta name="description" content="Economia Doméstica: o orçamento da família, mês a mês. Orçado, realizado e simulação.">
+<meta name="theme-color" content="#0B8A83">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Economia Doméstica">
+<meta property="og:title" content="Economia Doméstica">
+<meta property="og:description" content="O orçamento da família, mês a mês. App privado.">
+<meta property="og:image" content="https://tsferraro.github.io/economia-domestica/icone-512.png">
+<meta property="og:url" content="https://tsferraro.github.io/economia-domestica/app.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Economia Doméstica">
+<meta name="twitter:card" content="summary">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icone-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="casca.css">
+</head>
+<body>
+<noscript>Este app precisa de JavaScript.</noscript>
+
+<!-- entrada: só aparece enquanto ninguém entrou (classe econ-entrada-aberta no body) -->
+<section class="econ-entrada" id="econ-entrada" aria-label="Entrar">
+  <div class="econ-entrada-cartao">
+    <div class="marca"><i>E</i><span>Economia Doméstica</span></div>
+    <h1>Entre com a sua conta Google</h1>
+    <div id="econ-botao-google"></div>
+    <p class="apoio">O login pede só nome, e-mail e foto. Nenhum número da casa fica guardado neste aparelho.</p>
+  </div>
+</section>
+
+<!-- a moldura é a do mockup aprovado (mesmos ids e classes); as telas entram em #main -->
+<div class="app">
+  <nav class="side" aria-label="Telas" id="side"></nav>
+  <div class="pagina">
+    <div class="topo">
+      <div class="topo-e"><span class="topo-tit" id="topo-tit">Economia Doméstica</span><span class="chip neutro" id="chip-mes"></span></div>
+      <div class="topo-e"><div class="topo-acoes" id="topo-acoes"></div><span class="carimbo" id="carimbo-topo"></span><button class="btn peq" id="tema" type="button" aria-label="Alternar tema claro e escuro">Tema</button><button class="btn peq econ-conta" id="econ-conta" type="button" data-econ="conta" aria-label="Conta e sair" aria-haspopup="true" hidden></button></div>
+    </div>
+    <div class="econ-conta-pop" id="econ-conta-pop" hidden>
+      <span class="apoio">Conta conferida pelo servidor</span><b id="econ-conta-email"></b>
+      <button class="btn peq" type="button" data-econ="sair">Sair e apagar deste aparelho</button>
+    </div>
+    <div class="econ-faixas" id="econ-faixas" aria-live="polite"></div>
+    <main id="main" tabindex="-1"></main>
+  </div>
+</div>
+<nav class="tabbar" aria-label="Telas principais" id="tabbar"></nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="fab" id="fab"></div>
+<dialog class="econ-dialogo" id="econ-dialogo" aria-label="Economia Doméstica"></dialog>
+
+<script src="config.js"></script>
+<script src="fila.js"></script>
+<script src="api.js"></script>
+<script src="telas/leitura.js"></script>
+<script src="telas/orcado.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
